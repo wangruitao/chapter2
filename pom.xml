@@ -9,6 +9,13 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 
+		<!-- commons-dbutils -->
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.6</version>
+		</dependency>
+
 		<!-- MYSQL -->
 		<dependency>
 			<groupId>mysql</groupId>

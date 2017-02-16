@@ -30,6 +30,12 @@ public class CustomerServiceTest {
 	}
 	
 	@Test
+	public void queryListTest() {
+		List<Customer> list = customerService.queryEntryList();
+		Assert.assertEquals(2, list.size());
+	}
+	
+	@Test
 	public void getByIdTest() {
 		Customer customer = customerService.getById(1);
 		Assert.assertNull(customer);
