@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,51 @@ public final class DataBaseHelper {
 			closeConnection();
 		}
 		return entryList;
+	}
+	
+	public static <T> T queryEntry(Class<T> cls, String sql, Object... params) {
+		T entry;
+		try {
+			Connection conn = CONNECTION_HOLDER.get();
+			entry = QUERY_RUNNER.query(conn, sql, new BeanHandler<T>(cls), params);
+		} catch (SQLException e) {
+			logger.error("query entry failure", e);
+			throw new RuntimeException(e);
+		} finally {
+			closeConnection();
+		}
+		return entry;
+	}
+	
+	public static <T> T insertEntry(Class<T> cls, Map<String, Object> fieldMap) {
+		T entry = null;
+		Connection conn = CONNECTION_HOLDER.get();
+		if(CollectionUtil.isNotEmpty(fieldMap)) {
+			
+			StringBuffer sb = new StringBuffer();
+			sb.append("insert into " + getTableName(cls.getName()));
+			StringBuffer colSb = new StringBuffer("("); 
+			StringBuffer valSb = new StringBuffer("("); 
+			for(Entry<String, Object> field : fieldMap.entrySet()) {
+				colSb.append(field.getKey()).append(",");
+				valSb.append("?,");
+			}
+			sb.append(colSb.substring(0, colSb.lastIndexOf(","))).append(")")
+				.append(valSb.substring(0, valSb.lastIndexOf(","))).append(")");
+			try {
+				entry = QUERY_RUNNER.insert(conn, sb.toString(), new BeanHandler<T>(cls),
+						fieldMap.values().toArray());
+			} catch (SQLException e) {
+				logger.error("insert entry failure", e);
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return entry;
+	}
+	
+	public static String getTableName(String tableName) {
+		return tableName.toLowerCase();
 	}
 	
 	public static Connection getConnection() {

@@ -70,6 +70,10 @@ public class CustomerService {
 	 * @return
 	 */
 	public boolean createCustomer(Map<String, Object> map) {
+		Customer c= DataBaseHelper.insertEntry(Customer.class, map);
+		if(c != null) {
+			return true;
+		}
 		return false;
 	}
 	
