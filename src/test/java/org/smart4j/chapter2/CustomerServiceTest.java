@@ -56,15 +56,15 @@ public class CustomerServiceTest {
 	@Test
 	public void updateCustomerTest() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("email", "ilune@qq.com");
-		Integer id = 3;
+		map.put("email", "wangzh@qq.com");
+		Long id = 3L;
 		boolean suc = customerService.updateCustomer(map, id);
 		Assert.assertTrue(suc);
 	}
 	
 	@Test
 	public void deleteCustomerTest() {
-		Integer id = 3;
+		Long id = 8L;
 		boolean suc = customerService.deleteCustomer(id);
 		Assert.assertTrue(suc);
 	}

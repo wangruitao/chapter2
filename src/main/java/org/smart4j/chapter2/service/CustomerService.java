@@ -65,13 +65,14 @@ public class CustomerService {
 	}
 	
 	/**
-	 * 	//TODO 创建客户
+	 * 	//TODO 创建客户 
+	 * 创建客户，返回Id
 	 * @param map
 	 * @return
 	 */
 	public boolean createCustomer(Map<String, Object> map) {
-		Customer c= DataBaseHelper.insertEntry(Customer.class, map);
-		if(c != null) {
+		Long i = DataBaseHelper.insertEntry(Customer.class, map);
+		if(i != null && i > 0) {
 			return true;
 		}
 		return false;
@@ -83,8 +84,8 @@ public class CustomerService {
 	 * @param id
 	 * @return
 	 */
-	public boolean updateCustomer(Map<String, Object> map, Integer id) {
-		return false;
+	public boolean updateCustomer(Map<String, Object> map, Long id) {
+		return DataBaseHelper.updateEntry(Customer.class, map, id);
 	}
 	
 	/**
@@ -93,8 +94,8 @@ public class CustomerService {
 	 * @return
 	 */
 	
-	public boolean deleteCustomer(Integer id) {
-		return false;
+	public boolean deleteCustomer(Long id) {
+		return DataBaseHelper.deleteEntry(Customer.class, id);
 	}
 	
 }

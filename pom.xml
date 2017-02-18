@@ -9,6 +9,13 @@
 	<url>http://maven.apache.org</url>
 	<dependencies>
 
+		<!-- commons-dbcp -->
+		<dependency>
+		    <groupId>commons-dbcp</groupId>
+		    <artifactId>commons-dbcp</artifactId>
+		    <version>1.4</version>
+		</dependency>
+
 		<!-- commons-dbutils -->
 		<dependency>
 			<groupId>commons-dbutils</groupId>
